@@ -1,0 +1,17 @@
+{
+  "repo": "nexus-lang-bytecode-probe",
+  "thresholds": {
+    "signal": 2,
+    "slack": 2,
+    "confidence": 2,
+    "drag": 2,
+    "ship": 192,
+    "watch": 100
+  },
+  "terms": [
+    "IR pressure",
+    "lowering drift",
+    "stack depth",
+    "diagnostic reach"
+  ]
+}
