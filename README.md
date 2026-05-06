@@ -1,40 +1,29 @@
 # nexus-lang-bytecode-probe
 
-`nexus-lang-bytecode-probe` is a Julia project for Compilers. It turns create a Julia reference implementation for bytecode workflows, centered on simulation kernel, seeded input scenarios, and deterministic summary checks into a small local model with readable fixtures and a direct verification command.
+`nexus-lang-bytecode-probe` is a compact Julia repository for compilers, centered on this goal: Create a Julia reference implementation for bytecode workflows, centered on simulation kernel, seeded input scenarios, and deterministic summary checks.
 
-## Reading Nexus Lang Bytecode Probe
+## Why It Exists
 
-Start with the README, then open `metadata/project.json` to check the constants behind the examples. After that, `fixtures/cases.csv` shows the compact path and `examples/extended_cases.csv` gives a wider look at the same rule.
+The point is to make a small domain rule concrete enough that a reader can change it and immediately see what broke.
 
-## Purpose
+## Nexus Lang Bytecode Probe Review Notes
 
-The repository exists to keep a technical idea small enough to reason about. The implementation avoids external dependencies where possible, then uses fixtures to make changes easy to review.
+The first comparison I would make is `lowering drift` against `stack depth` because it shows where the rule is most opinionated.
 
-## What It Does
+## Features
 
-- Models source form with deterministic scoring and explicit review decisions.
-- Uses fixture data to keep intermediate state changes visible in code review.
-- Includes extended examples for bytecode output, including `surge` and `degraded`.
-- Documents evaluation checks tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
+- `fixtures/domain_review.csv` adds cases for IR pressure and lowering drift.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/nexus-lang-bytecode-walkthrough.md` walks through the case spread.
+- The Julia code includes a review path for `lowering drift` and `stack depth`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Design Sketch
+## Architecture Notes
 
-The core is a scoring model over demand, capacity, latency, risk, and weight. That keeps source form, intermediate state, and bytecode output in one explicit decision path. The threshold is 156, with risk penalty 4, latency penalty 2, and weight bonus 4. The Julia project keeps the model in a small module with assertions in a local test script.
+The repository has two validation layers: the original compact policy fixture and the domain review fixture. They are separate so one can change without hiding failures in the other.
 
-## Files Worth Reading
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-
-## Setup
-
-The only required setup is the local Julia toolchain. After cloning, stay in the repo root so fixture paths resolve correctly.
+The Julia addition stays small enough to inspect in one sitting.
 
 ## Usage
 
@@ -42,27 +31,10 @@ The only required setup is the local Julia toolchain. After cloning, stay in the
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Tests
 
-## Verification
+The verifier is intentionally local. It should fail if the fixture score math, lane assignment, or language-specific test drifts.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Limitations And Roadmap
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Fixture Notes
-
-`examples/extended_cases.csv` adds six named cases. I kept the names plain so failures are easy to read in a terminal: baseline, pressure, surge, degraded, recovery, and boundary.
-
-## Limits
-
-The repository favors determinism over breadth. It does not pull live data, keep secrets, or depend on network access for verification.
-
-## Next Directions
-
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add one more compilers fixture that focuses on a malformed or borderline input.
+No external service is required. A deeper version would add more negative cases and a clearer boundary around invalid input.

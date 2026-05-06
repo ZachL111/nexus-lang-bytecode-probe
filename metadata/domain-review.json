@@ -1,0 +1,73 @@
+{
+  "repo": "nexus-lang-bytecode-probe",
+  "language": "Julia",
+  "category": "Compilers",
+  "goal": "Create a Julia reference implementation for bytecode workflows, centered on simulation kernel, seeded input scenarios, and deterministic summary checks.",
+  "review_model": {
+    "terms": [
+      "IR pressure",
+      "lowering drift",
+      "stack depth",
+      "diagnostic reach"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "IR pressure",
+      "signal": 75,
+      "slack": 37,
+      "drag": 19,
+      "confidence": 58,
+      "score": 188,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "lowering drift",
+      "signal": 62,
+      "slack": 51,
+      "drag": 9,
+      "confidence": 85,
+      "score": 233,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "stack depth",
+      "signal": 63,
+      "slack": 26,
+      "drag": 30,
+      "confidence": 67,
+      "score": 129,
+      "lane": "watch"
+    },
+    {
+      "name": "recovery",
+      "focus": "diagnostic reach",
+      "signal": 71,
+      "slack": 26,
+      "drag": 14,
+      "confidence": 50,
+      "score": 176,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "IR pressure",
+      "signal": 90,
+      "slack": 37,
+      "drag": 14,
+      "confidence": 58,
+      "score": 233,
+      "lane": "ship"
+    }
+  ]
+}
