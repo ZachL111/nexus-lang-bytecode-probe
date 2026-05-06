@@ -1,0 +1,32 @@
+{
+  "index": 450,
+  "phase": 2,
+  "batch": 50,
+  "name": "nexus-lang-bytecode-probe",
+  "planned_name": "nexus-lang-bytecode-probe",
+  "language": "Julia",
+  "category": "Compilers",
+  "goal": "Create a Julia reference implementation for bytecode workflows, centered on simulation kernel, seeded input scenarios, and deterministic summary checks.",
+  "repository_url": "https://github.com/ZachL111/nexus-lang-bytecode-probe",
+  "verification_command": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1",
+  "model": {
+    "inputs": [
+      "demand",
+      "capacity",
+      "latency",
+      "risk",
+      "weight"
+    ],
+    "threshold": 156,
+    "risk_penalty": 4,
+    "latency_penalty": 2,
+    "weight_bonus": 4,
+    "decision_rule": "accept when score is greater than or equal to threshold, otherwise review"
+  },
+  "quality_gates": [
+    "readme constraint scan",
+    "fixture presence check",
+    "metadata JSON parse",
+    "language verifier"
+  ]
+}
